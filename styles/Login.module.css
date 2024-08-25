@@ -1,0 +1,106 @@
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  /* 标题样式 */
+  .title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  /* 表单样式 */
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 输入组样式 */
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+  
+  /* 输入组标签样式 */
+  .inputGroup label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  /* 输入框样式 */
+  .input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    /* 添加一个负的外边距，抵消内边距造成的宽度增加 */
+    margin-left: -12px;
+    width: calc(100%);
+  }
+  
+  /* 输入框焦点样式 */
+  .input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+/* 按钮样式 */
+  .button {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  /* 按钮悬停样式 */
+  .button:hover {
+    background-color: #0056b3;
+  }
+  /* 禁用按钮样式 */
+  .button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  /* 错误信息样式 */
+  .error {
+    color: #dc3545;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  /* 懒得注释了 */
+  .links {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .link {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  /*记住我*/ 
+  .rememberMe {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .rememberMe input {
+    margin-right: 8px;
+  }
+  
