@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from './Login.module.css';
+import background from './Login.background.css';
 
 function Login() {
   // 使用 useState 钩子管理表单状态
@@ -65,60 +66,62 @@ function Login() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>登录</h1>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {/* 用户名输入 */}
-        <div className={styles.inputGroup}>
-          <label htmlFor="username">用户名</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={credentials.username}
-            onChange={handleChange}
-            className={styles.input}
-            placeholder="输入你的用户名"
-          />
+    <div className={background.container}>
+      <div className={styles.container}>
+        <h1 className={styles.title}>登录</h1>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {/* 用户名输入 */}
+          <div className={styles.inputGroup}>
+            <label htmlFor="username">用户名</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={credentials.username}
+              onChange={handleChange}
+              className={styles.input}
+              placeholder="输入你的用户名"
+            />
+          </div>
+          {/* 密码输入 */}
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">密码</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={credentials.password}
+              onChange={handleChange}
+              className={styles.input}
+              placeholder="输入你的密码"
+            />
+          </div>
+          {/* "记住我"复选框 */}
+          <div className={styles.rememberMe}>
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            <label htmlFor="rememberMe">记住我</label>
+          </div>
+          {/* 错误信息显示 */}
+          {error && <p className={styles.error}>{error}</p>}
+          {/* 提交按钮 */}
+          <button type="submit" disabled={isLoading} className={styles.button}>
+            {isLoading ? '登录中...' : 'Login'}
+          </button>
+        </form>
+        {/* 其他链接 */}
+        <div className={styles.links}>
+          <Link href="/forgot-password" className={styles.link}>
+              忘记密码？
+          </Link>
+          <Link href="/register" className={styles.link}>
+              创建账号
+          </Link>
         </div>
-        {/* 密码输入 */}
-        <div className={styles.inputGroup}>
-          <label htmlFor="password">密码</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            className={styles.input}
-            placeholder="输入你的密码"
-          />
-        </div>
-        {/* "记住我"复选框 */}
-        <div className={styles.rememberMe}>
-          <input
-            type="checkbox"
-            id="rememberMe"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-          />
-          <label htmlFor="rememberMe">记住我</label>
-        </div>
-        {/* 错误信息显示 */}
-        {error && <p className={styles.error}>{error}</p>}
-        {/* 提交按钮 */}
-        <button type="submit" disabled={isLoading} className={styles.button}>
-          {isLoading ? '登录中...' : 'Login'}
-        </button>
-      </form>
-      {/* 其他链接 */}
-      <div className={styles.links}>
-        <Link href="/forgot-password" className={styles.link}>
-            忘记密码？
-        </Link>
-        <Link href="/register" className={styles.link}>
-            创建账号
-        </Link>
       </div>
     </div>
   );
