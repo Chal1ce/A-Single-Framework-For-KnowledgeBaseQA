@@ -9,7 +9,7 @@
 
 这是项目 `基于知识图谱的农业种养殖技术服务系统` 的前端项目，基于 `next.js` 进行开发。
 
-### 关于数据
+## 关于数据
 
 知识图谱数据来源：[GitHub](https://github.com/qq547276542/Agriculture_KnowledgeGraph) | [Gitee](https://gitee.com/jing_jing_yan/Agriculture_KnowledgeGraph)
 
@@ -17,7 +17,7 @@
 
 白皮书、实践指南等其他类型数据来源：国家农业科学数据中心、中国科技资源共享网、全国信息安全标准化技术委员会等公开数据网站
 
-### 开始
+## 开始
 **运行项目:**
 
 ⚠️ 首次运行项目前，需要先运行初始化数据库的脚本。
@@ -35,7 +35,7 @@ npm run dev
 
 项目中使用了 Next.js 的字体优化功能，特别是用于加载和优化 Inter 字体，这是一种 Google 提供的自定义字体。链接指向了 Next.js 文档中关于字体优化的详细说明。链接：[next/font](https://nextjs.org/docs/basic-features/font-optimization)
 
-### 目录结构
+## 目录结构
 ```bash
 # 首次进去的主页面
 src/app/page.js
