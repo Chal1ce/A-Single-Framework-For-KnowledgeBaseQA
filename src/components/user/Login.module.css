@@ -80,6 +80,13 @@
     text-align: center;
     margin-bottom: 15px;
   }
+  /* 成功信息样式 */
+  .success {
+    color: #209f52;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
   /* 懒得注释了 */
   .links {
     margin-top: 20px;
