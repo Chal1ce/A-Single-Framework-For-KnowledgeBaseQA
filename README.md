@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+这是我的个人项目 `基于知识图谱的农业种养殖技术服务系统` 的前端项目，基于 `next.js` 进行开发。你也可以作为一个前端模板进行二次开发使用。
 
-## Getting Started
+## 开始
 
-First, run the development server:
+**运行项目:**
 
+⚠️ 首次运行项目前，需要先运行初始化数据库的脚本。
+- 在命令行或终端中输入以下命令：
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run initialize-db
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 然后输入以下命令启动项目：
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+在浏览器打开链接 [http://localhost:3000](http://localhost:3000) 在浏览器中查看结果。
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+项目中使用了 Next.js 的字体优化功能，特别是用于加载和优化 Inter 字体，这是一种 Google 提供的自定义字体。链接指向了 Next.js 文档中关于字体优化的详细说明。链接：[next/font](https://nextjs.org/docs/basic-features/font-optimization)
 
-## Learn More
+## 项目信息
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# 首次进去的主页面
+src/app/page.js
+# 初始化用户数据库脚本
+.init-db.js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# src
+|--src
+    |----app # 主页面
+        |----favicon.ico # 网站图标
+        |----layout.js # 主页面布局
+        |----page.js # 主页面
+        |----page.module.css # 主页面样式
+        |----(other) # 其他
+    |----components # 组件
+        |----user # 用户相关；页面样式什么的可以在这改
+            |----background.css # 登录注册页面的背景
+            |----login.module.css # 登录注册页面的样式
+            |----register.js # 注册页面
+            |----ForgotPW.js # 忘记密码、重置密码页面
+            |----Login.js # 登录页面
+    ｜----layout # 目前没放东西
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+|--public # 存放公共资源，例如图片等
 
-## Deploy on Vercel
+# pages
+|--pages
+    |----api # 接口
+        |----forgot-password # 忘记密码，重置密码
+        |----register # 注册
+        |----login # 登录
+        |----(other) # 其他
+    |----forgot-password.js # 忘记密码，重置密码页面
+    |----register.js # 注册页面
+    |----login.js # 登录页面
+    |----helloWorld.js # 测试页面
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
