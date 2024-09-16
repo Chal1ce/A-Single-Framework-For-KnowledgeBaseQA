@@ -12,9 +12,7 @@ async function initDb() {
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT UNIQUE,
-      email TEXT UNIQUE,
       password TEXT,
-      reset_token TEXT
     )
   `);
 

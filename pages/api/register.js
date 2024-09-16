@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     const db = await open({
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.run('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword]);
+    await db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword]);
 
     await db.close();
 

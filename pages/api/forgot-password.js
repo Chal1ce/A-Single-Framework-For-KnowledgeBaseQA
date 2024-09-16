@@ -1,34 +1,32 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
-import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { email } = req.body;
-
+  const { username, password } = req.body;
+  console.log(username, password);
   try {
     const db = await open({
       filename: './user.db',
       driver: sqlite3.Database
     });
 
-    const user = await db.get('SELECT * FROM users WHERE email = ?', [email]);
+    const user = await db.get('SELECT * FROM users WHERE username = ?', [username]);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(400).json({ message: 'Invalid or expired username' });
     }
 
-    const resetToken = crypto.randomBytes(20).toString('hex');
-    await db.run('UPDATE users SET reset_token = ? WHERE id = ?', [resetToken, user.id]);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await db.run('UPDATE users SET password = ? WHERE username = ?', [hashedPassword, username]);
 
     await db.close();
 
-    // 在实际应用中，你应该发送一封包含重置链接的电子邮件
-    // 这里我们只是返回重置令牌作为演示
-    res.status(200).json({ message: '密码重置链接已经发送到电子邮箱', resetToken });
+    res.status(200).json({ message: '密码重置成功' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: '网络服务错误' });
