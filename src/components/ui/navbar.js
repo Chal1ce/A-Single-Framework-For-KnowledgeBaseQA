@@ -8,7 +8,7 @@ const Navbar = ({ className, ...props }) => {
 
   const navItems = [
     { name: '首页', path: '/helloWorld' },
-    { name: '物种百科', path: '/baike' },
+    { name: '物种百科', path: '/BaikeSearch' },
     { name: '论坛', path: '/forum' },
     { name: '关于', path: '/about' },
   ];
