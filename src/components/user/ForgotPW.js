@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import styles from './login.module.css';
-import background from './background.css';
+import styles from '../../styles/login.module.css';
+import background from '../../styles/background.css';
 
 export default function ForgotPassword() {
   const [username, setUsername] = useState('');

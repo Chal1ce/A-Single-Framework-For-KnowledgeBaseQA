@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import styles from './Login.module.css';
-import background from './background.css';
+import styles from '../../styles/Login.module.css';
+import background from '../../styles/background.css';
 
 function Login() {
   // 使用 useState 钩子管理表单状态
