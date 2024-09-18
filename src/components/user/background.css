@@ -1,8 +1,0 @@
-body {
-    /* 确保 body 占满整个视口高度 */
-    min-height: 100vh;
-    margin: 0; 
-    background-image: url('https://i.postimg.cc/WbQZhqqT/agriculture-Background.png');
-    background-size: cover;
-  }
-  

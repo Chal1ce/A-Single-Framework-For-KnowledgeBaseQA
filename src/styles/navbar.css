@@ -1,0 +1,126 @@
+.navbar {
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4rem; /* 确保这个高度与 mt-16 (64px) 匹配 */
+  z-index: 50;
+}
+
+.navbar-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  height: 4rem; /* 确保这个高度与 navbar 的高度匹配 */
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo img {
+  height: 2rem;
+  width: auto;
+}
+
+.navbar-links {
+  display: none;
+}
+
+.navbar-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6B7280;
+  background-color: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.navbar-item:hover {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.navbar-item.active {
+  color: #111827;
+  font-weight: 600;
+  background-color: #E5E7EB;
+}
+
+.login-button {
+  background-color: #1eab3e;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.login-button:hover {
+  background-color: #4338CA;
+}
+
+.navbar-button {
+  display: none;
+}
+
+.navbar-menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  color: #9CA3AF;
+}
+
+.navbar-menu-button:hover {
+  background-color: #F3F4F6;
+  color: #6B7280;
+}
+
+.navbar-mobile-menu {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .navbar-container {
+    padding: 0 1.5rem;
+  }
+
+  .navbar-links {
+    display: flex;
+    margin-left: 1.5rem;
+    gap: 1rem;
+  }
+
+  .navbar-button {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-menu-button {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar-container {
+    padding: 0 2rem;
+  }
+}

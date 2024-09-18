@@ -10,11 +10,17 @@
     "initialize-db": "node init-db.js"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "next": "14.2.6",
     "react": "^18",
     "react-dom": "^18",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.5.5",
+    "@types/react": "18.3.7",
+    "typescript": "5.6.2"
   }
 }
