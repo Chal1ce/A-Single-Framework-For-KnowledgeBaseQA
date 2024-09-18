@@ -29,7 +29,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px; /* 减少文字和图标之间的间距 */
+  gap: 6px; /* 减少文字和图标之间的间距 */
   width: 100%;
   padding: 8px 12px; /* 减少按钮的内边距 */
   font-size: 14px; /* 减小字体大小 */
@@ -88,5 +88,154 @@
 .sidebarButton:hover svg path,
 .sidebarButton.active svg path {
   fill: #ffffff;
+}
+
+.settingsButton {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.settingsButton:hover {
+  transform: rotate(45deg);
+}
+
+.settingsPanel {
+  position: absolute;
+  bottom: 60px;
+  right: 12px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.settingsPanel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #006400;
+}
+
+.inputGroup {
+  margin-bottom: 15px;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.checkboxGroup input {
+  margin-right: 8px;
+}
+
+.checkboxGroup label {
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #006400;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #005000;
+}
+
+.settingsPanel label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.button {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 8px;
+  height: 36px;
+  width: 120px;
+  border: none;
+  background: transparent; /* 将背景设置为透明 */
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.label {
+  line-height: 20px;
+  font-size: 17px;
+  color: #006400; /* 将字体颜色改为深绿色 */
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+
+.button:hover {
+  background: rgba(0, 100, 0, 0.1); /* 悬停时添加轻微的深绿色背景 */
+}
+
+.button:hover .svgIcon {
+  animation: spin 2s linear infinite;
+}
+
+.svgIcon {
+  stroke: #006400; /* 将SVG图标的颜色也改为深绿色 */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.settingsPanel label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
 }
 
