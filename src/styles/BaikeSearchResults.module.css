@@ -123,3 +123,116 @@
   max-width: 800px;
   margin-bottom: 30px; /* 增加底部间距 */
 }
+
+.chatResponse {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.chatResponse h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.chatResponse p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #34495e;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Markdown 样式 */
+.chatResponse h1, .chatResponse h2, .chatResponse h3,
+.chatResponse h4, .chatResponse h5, .chatResponse h6 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.chatResponse h1 { font-size: 24px; }
+.chatResponse h2 { font-size: 22px; }
+.chatResponse h3 { font-size: 20px; }
+.chatResponse h4 { font-size: 18px; }
+.chatResponse h5 { font-size: 16px; }
+.chatResponse h6 { font-size: 15px; }
+
+.chatResponse ul, .chatResponse ol {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.chatResponse li {
+  margin-bottom: 5px;
+}
+
+.chatResponse code {
+  background-color: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.chatResponse pre {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.chatResponse blockquote {
+  border-left: 4px solid #2c3e50;
+  padding-left: 15px;
+  color: #555;
+  font-style: italic;
+  margin: 15px 0;
+}
+
+.chatResponse a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.chatResponse a:hover {
+  text-decoration: underline;
+}
+
+.chatResponse img {
+  max-width: 100%;
+  height: auto;
+  margin: 10px 0;
+}
+
+.chatResponseContainer {
+  width: 50%; /* 增加宽度以适应更多内容 */
+  /*max-height: 500px; /* 增加最大高度 */
+  overflow-y: auto;
+  margin: 30px auto;
+  border: 1px solid #d0d0d0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* 增加内边距 */
+}
+
+.chatResponseContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chatResponseContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.chatResponseContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.chatResponseContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
