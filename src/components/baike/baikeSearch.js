@@ -168,7 +168,7 @@ export default function BaikeSearch() {
           )}
           {activeSection === 'conversation' && (
             <div className={searchStyles.searchContainer}>
-              <h2 className={searchStyles.searchTitle}>物种知识问答</h2>
+              {/*<h2 className={searchStyles.searchTitle}>物种知识问答</h2>*/}
               <p className={searchStyles.searchSubtitle}>请输入您的问题，我将为您解答</p>
               <div className={searchStyles.searchInputContainer}>
                 <input
