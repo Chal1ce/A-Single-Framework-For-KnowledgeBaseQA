@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import Navbar from '../ui/navbar';
 import FloatingSidebar from '../ui/FloatingSidebar';
@@ -7,16 +8,25 @@ import searchStyles from '../../styles/SearchBox.module.css';
 import resultStyles from '../../styles/BaikeSearchResults.module.css';
 
 export default function BaikeSearch() {
-  const [activeSection, setActiveSection] = useState('baikeSearch');
+  const router = useRouter();
+  const [activeSection, setActiveSection] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [searchTitle, setSearchTitle] = useState('');
   const [chatQuery, setChatQuery] = useState('');
   const [chatResponse, setChatResponse] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const chatContainerRef = useRef(null);
 
+  useEffect(() => {
+    // 根据当前路径设置activeSection
+    const path = router.pathname.split('/').pop();
+    setActiveSection(path || 'baikeSearch');
+  }, [router.pathname]);
+
   const handleSectionChange = (section) => {
     setActiveSection(section);
+    router.push(`/BaikeSearch/${section}`);
   };
 
   const handleSearch = async () => {
@@ -31,6 +41,7 @@ export default function BaikeSearch() {
       const data = await response.json();
       console.log(data);
       setSearchResults(data.results);
+      setSearchTitle(searchQuery)
     } catch (error) {
       console.error('搜索出错:', error);
     }
@@ -58,7 +69,7 @@ export default function BaikeSearch() {
           </div>
           <div className={resultStyles.cardRight}>
             <img src={result.image} alt={result.title} className={resultStyles.cardImage} onError={handleImageError} />
-            <div className={resultStyles.cardTitle}>{searchQuery}</div>
+            <div className={resultStyles.cardTitle}>{searchTitle}</div>
           </div>
         </div>
         <button 
