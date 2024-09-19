@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../styles/FloatingSidebar.module.css';
+import axios from 'axios';
 
 const FloatingSidebar = ({ children }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -19,10 +20,41 @@ const FloatingSidebar = ({ children }) => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('设置已保存:', { baseUrl, apiKey, modelName, embedModel, needWebSearch, serperApiKey });
-    setIsSettingsOpen(false);
+    const settings = { 'baseUrl': baseUrl, 'apiKey': apiKey, 'modelName': modelName, 'embedModel': embedModel, 'needWebSearch': needWebSearch, 'serperApiKey': serperApiKey };
+    
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/update_settings', settings);
+      if (response.status === 200) {
+        // 显示成功消息
+        const successMessage = document.createElement('div');
+        successMessage.textContent = '设置已成功保存';
+        successMessage.style.cssText = `
+          position: fixed;
+          top: 70px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: #4CAF50;
+          color: white;
+          padding: 15px;
+          border-radius: 5px;
+          z-index: 1000;
+        `;
+        document.body.appendChild(successMessage);
+
+        // 移除消息
+        setTimeout(() => {
+          document.body.removeChild(successMessage);
+        }, 1500);
+        console.log('设置已成功保存到服务器');
+        setIsSettingsOpen(false);
+      } else {
+        console.error('保存设置时出错:', response.statusText);
+      }
+    } catch (error) {
+      console.error('发送设置请求时出错:', error);
+    }
   };
 
   return (
