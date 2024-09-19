@@ -21,7 +21,7 @@
 .navbar-content {
   display: flex;
   justify-content: space-between;
-  height: 3.5rem; /* 确保这个高度与 navbar 的高度匹配 */
+  height: 3.25rem; /* 确保这个高度与 navbar 的高度匹配 */
 }
 
 .navbar-logo {
