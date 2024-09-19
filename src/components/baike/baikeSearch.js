@@ -3,12 +3,67 @@ import Navbar from '../ui/navbar';
 import FloatingSidebar from '../ui/FloatingSidebar';
 import styles from '../../styles/FloatingSidebar.module.css';
 import searchStyles from '../../styles/SearchBox.module.css';
+import resultStyles from '../../styles/BaikeSearchResults.module.css';
 
 export default function BaikeSearch() {
-  const [activeSection, setActiveSection] = useState('conversation');
+  const [activeSection, setActiveSection] = useState('baikeSearch');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
+  };
+
+  const handleSearch = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/search_baidu_baike', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: searchQuery }),
+      });
+      const data = await response.json();
+      console.log(data);
+      setSearchResults(data.results);
+    } catch (error) {
+      console.error('搜索出错:', error);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleImageError = (event) => {
+    event.target.src = '/404.svg';
+  };
+
+  const BaikeSearchResult = ({ result }) => {
+    return (
+      <div className={resultStyles.cardWrapper}>
+        <div className={resultStyles.resultCard}>
+          <div className={resultStyles.cardLeft}>
+            <h4 className={resultStyles.keyword}>关键词：</h4>
+            <p className={resultStyles.keywordContent}>{result.keywords}</p>
+            <h4 className={resultStyles.description}>描述：</h4>
+            <p className={resultStyles.descriptionContent}>{result.summary}</p>
+          </div>
+          <div className={resultStyles.cardRight}>
+            <img src={result.image} alt={result.title} className={resultStyles.cardImage} onError={handleImageError} />
+            <div className={resultStyles.cardTitle}>{searchQuery}</div>
+          </div>
+        </div>
+        <button 
+          className={resultStyles.viewMoreButton}
+          onClick={() => window.open(result.url, '_blank')}
+        >
+          查看更多
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -54,11 +109,21 @@ export default function BaikeSearch() {
                   type="text"
                   className={searchStyles.searchInput}
                   placeholder="请输入搜索内容"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
-                <button className={searchStyles.searchButton}>
+                <button className={searchStyles.searchButton} onClick={handleSearch}>
                   搜索
                 </button>
               </div>
+              {searchResults.length > 0 && (
+                <div className={resultStyles.resultsContainer}>
+                  {searchResults.map((result, index) => (
+                    <BaikeSearchResult key={index} result={result} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </main>
