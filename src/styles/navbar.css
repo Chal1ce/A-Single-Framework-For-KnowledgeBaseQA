@@ -59,8 +59,11 @@
 }
 
 .navbar-item.active {
-  color: #1eab3e; /* 使用主题色 */
-  background-color: rgba(30, 171, 62, 0.1); /* 半透明背景 */
+  /* 选中状态的样式 */
+  font-weight: bold !important;
+  color: #1EAB3E !important;
+  background-color: rgba(30, 171, 62, 0.1) !important;
+  border-radius: 0.375rem !important;
 }
 
 .login-button {
