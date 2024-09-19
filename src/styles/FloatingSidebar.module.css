@@ -11,6 +11,7 @@
   transition: all 0.3s ease;
   width: 240px;
   border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .floatingSidebar:hover {
@@ -186,47 +187,48 @@
 }
 
 .button {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 6px 12px;
   gap: 8px;
   height: 36px;
-  width: 120px;
   border: none;
-  background: transparent; /* 将背景设置为透明 */
+  background: transparent;
   border-radius: 20px;
   cursor: pointer;
+  color: #006400;
+}
+
+.button:hover {
+  background: rgba(0, 100, 0, 0.1);
+}
+
+.toggleButton {
+  width: auto;
 }
 
 .label {
   line-height: 20px;
-  font-size: 17px;
-  color: #006400; /* 将字体颜色改为深绿色 */
+  font-size: 14px;
   font-family: sans-serif;
   letter-spacing: 1px;
 }
 
-.button:hover {
-  background: rgba(0, 100, 0, 0.1); /* 悬停时添加轻微的深绿色背景 */
+.svgIcon {
+  stroke: #006400;
+  width: 16px;
+  height: 16px;
 }
 
 .button:hover .svgIcon {
   animation: spin 2s linear infinite;
 }
 
-.svgIcon {
-  stroke: #006400; /* 将SVG图标的颜色也改为深绿色 */
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
@@ -238,4 +240,76 @@
   gap: 8px;
   font-size: 14px;
 }
+
+.hidden {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.sidebarControls {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: #006400;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.toggleButton:hover {
+  background: rgba(0, 100, 0, 0.1);
+}
+
+.toggleButton svg {
+  width: 16px;
+  height: 16px;
+  stroke: #006400;
+}
+
+.showButton {
+  position: fixed;
+  top: 50%;
+  left: 20px; /* 调整位置,使其更靠近屏幕边缘 */
+  transform: translateY(-50%);
+  width: 50px; /* 稍微增加按钮大小 */
+  height: 50px;
+  border-radius: 50%;
+  background-color: #10b981; /* 使用主题色 */
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); /* 添加柔和阴影 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease; /* 添加过渡效果 */
+  border: none;
+  outline: none;
+}
+
+.showButton:hover {
+  background-color: #0d9668; /* 悬停时稍微变暗 */
+  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.4); /* 增强阴影 */
+  transform: translateY(-50%) scale(1.05); /* 稍微放大 */
+}
+
+.showButton::before {
+  content: '≡'; /* 添加汉堡菜单图标 */
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* 其他现有样式保持不变 */
 
