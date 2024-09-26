@@ -1,6 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import requests
+import io
+import base64
+from PIL import Image
 from bs4 import BeautifulSoup
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -62,6 +65,25 @@ async def search_baidu_baike(search_query: SearchQuery):
         if not content.endswith('。'):
             content = '。'.join(content.split('。')[:-1]) + '。'
         description = content
+
+    try:
+        # 发送HTTP请求获取图片数据
+        res = requests.get(url)
+
+        # 检查请求是否成功
+        if res.status_code == 200:
+            # 将图片数据转化为BytesIO对象
+            img = io.BytesIO(res.content)
+            # 将BytesIO对象转换为base64格式
+            img = Image.open(img)
+
+        else:
+            # 如果请求失败，则使用默认图片
+            img = "../public/404.svg"
+
+    except:
+        # 如果请求失败，则使用默认图片
+        img = "../public/404.svg"
     
     if title and description:
         results.append({
@@ -69,8 +91,9 @@ async def search_baidu_baike(search_query: SearchQuery):
             "keywords": keywords.get('content', ''),
             "summary": description.strip(),
             "url": response.url,
-            "image": image.get('content', '')
+            "image": img
         })
+        print(results)
     
     return {"results": results}
 
@@ -111,6 +134,44 @@ async def chat_with_gpt(chat_message: ChatMessage):
     except Exception as e:
         print(f"在处理请求时发生错误: {str(e)}")
         raise HTTPException(status_code=422, detail=str(e))
+
+
+
+@app.post("/summary_to_mindmap")
+async def summary_to_mindmap(chat_message: ChatMessage):
+    try:
+        # 使用全局设置
+        client = OpenAI(
+            api_key=settings["apiKey"],
+            base_url=settings["baseUrl"]
+        )
+        print(f"使用的设置: {settings}")
+        
+        def generate():
+            try:
+                response = client.chat.completions.create(
+                    model=settings["modelName"],
+                    messages=[
+                        {"role": "system", 
+                         "content": "##角色：\n你是一个markdown专家，将用户输入的文本总结转换为markdown的形式。\n##输出格式：\n# 标题，## 子标题，- 列表"},
+                        {"role": "user", "content": chat_message.message}
+                    ],
+                    stream=False
+                )
+                
+                print(response.choices[0].message.content)
+                return response.choices[0].message.content.replace("\n#", "#").replace("\n##", "##").replace("\n-", "-")
+            except Exception as e:
+                print(f"在生成响应时发生错误: {str(e)}")
+                return f"错误: {str(e)}"
+
+        return generate()
+
+    except Exception as e:
+        print(f"在处理请求时发生错误: {str(e)}")
+        raise HTTPException(status_code=422, detail=str(e))
+
+
 
 app.add_middleware(
     CORSMiddleware,

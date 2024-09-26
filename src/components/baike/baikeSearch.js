@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import ReactMarkdown from 'react-markdown';
 import Navbar from '../ui/navbar';
 import FloatingSidebar from '../ui/FloatingSidebar';
 import styles from '../../styles/FloatingSidebar.module.css';
 import searchStyles from '../../styles/SearchBox.module.css';
 import resultStyles from '../../styles/BaikeSearchResults.module.css';
+import KnowledgeAnswer from './KnonwledgeAnswer';
 
 export default function BaikeSearch() {
   const router = useRouter();
@@ -13,10 +13,6 @@ export default function BaikeSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchTitle, setSearchTitle] = useState('');
-  const [chatQuery, setChatQuery] = useState('');
-  const [chatResponse, setChatResponse] = useState('');
-  const [isStreaming, setIsStreaming] = useState(false);
-  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     // 根据当前路径设置activeSection
@@ -56,7 +52,7 @@ export default function BaikeSearch() {
   const handleImageError = (event) => {
     event.target.src = '/404.svg';
   };
-
+  
   const BaikeSearchResult = ({ result }) => {
     return (
       <div className={resultStyles.cardWrapper}>
@@ -81,42 +77,7 @@ export default function BaikeSearch() {
       </div>
     );
   };
-
-  const handleChatSubmit = async () => {
-    setIsStreaming(true);
-    setChatResponse('');
-    
-    try {
-      const response = await fetch('http://127.0.0.1:8000/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: chatQuery }),
-      });
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value);
-        setChatResponse(prev => prev + chunk);
-      }
-    } catch (error) {
-      console.error('聊天出错:', error);
-    } finally {
-      setIsStreaming(false);
-    }
-  };
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [chatResponse]);
-
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -178,35 +139,7 @@ export default function BaikeSearch() {
             </div>
           )}
           {activeSection === 'conversation' && (
-            <div className={searchStyles.searchContainer}>
-              {/*<h2 className={searchStyles.searchTitle}>物种知识问答</h2>*/}
-              <p className={searchStyles.searchSubtitle}>请输入您的问题，我将为您解答</p>
-              <div className={searchStyles.searchInputContainer}>
-                <input
-                  type="text"
-                  className={searchStyles.searchInput}
-                  placeholder="请输入您的问题"
-                  value={chatQuery}
-                  onChange={(e) => setChatQuery(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleChatSubmit()}
-                />
-                <button 
-                  className={searchStyles.searchButton}
-                  onClick={handleChatSubmit}
-                  disabled={isStreaming}
-                >
-                  发送
-                </button>
-              </div>
-              {chatResponse && (
-                <div className={resultStyles.chatResponseContainer} ref={chatContainerRef}>
-                  <div className={resultStyles.chatResponse}>
-                    <h4>回答：</h4>
-                    <ReactMarkdown>{chatResponse}</ReactMarkdown>
-                  </div>
-                </div>
-              )}
-            </div>
+            <KnowledgeAnswer />
           )}
         </main>
       </div>
