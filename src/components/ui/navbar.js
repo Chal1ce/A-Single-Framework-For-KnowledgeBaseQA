@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import '../../styles/navbar.css';
 
 const Navbar = ({ className, ...props }) => {
@@ -17,6 +18,13 @@ const Navbar = ({ className, ...props }) => {
     router.push(path);
   };
 
+  const isActive = (path) => {
+    if (path === '/BaikeSearch') {
+      return router.pathname.startsWith('/BaikeSearch');
+    }
+    return router.pathname === path;
+  };
+
   return (
     <nav className={`navbar bg-gray-100 ${className}`} {...props}>
       <div className="navbar-container">
@@ -30,7 +38,7 @@ const Navbar = ({ className, ...props }) => {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                className={`navbar-item ${router.pathname === item.path ? 'active' : ''}`}
+                className={`navbar-item ${isActive(item.path) ? 'active' : ''}`}
                 onClick={() => handleNavigation(item.path)}
               >
                 {item.name}
@@ -58,7 +66,7 @@ const Navbar = ({ className, ...props }) => {
           {navItems.map((item) => (
             <button
               key={item.name}
-              className={`navbar-item ${router.pathname === item.path ? 'active' : ''}`}
+              className={`navbar-item ${isActive(item.path) ? 'active' : ''}`}
               onClick={() => handleNavigation(item.path)}
             >
               {item.name}

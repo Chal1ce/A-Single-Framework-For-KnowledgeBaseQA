@@ -1,16 +1,83 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import Navbar from '../ui/navbar';
 import FloatingSidebar from '../ui/FloatingSidebar';
 import styles from '../../styles/FloatingSidebar.module.css';
 import searchStyles from '../../styles/SearchBox.module.css';
+import resultStyles from '../../styles/BaikeSearchResults.module.css';
+import KnowledgeAnswer from './KnonwledgeAnswer';
 
 export default function BaikeSearch() {
-  const [activeSection, setActiveSection] = useState('conversation');
+  const router = useRouter();
+  const [activeSection, setActiveSection] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTitle, setSearchTitle] = useState('');
+
+  useEffect(() => {
+    // 根据当前路径设置activeSection
+    const path = router.pathname.split('/').pop();
+    setActiveSection(path || 'baikeSearch');
+  }, [router.pathname]);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
+    router.push(`/BaikeSearch/${section}`);
   };
 
+  const handleSearch = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/search_baidu_baike', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: searchQuery }),
+      });
+      const data = await response.json();
+      console.log(data);
+      setSearchResults(data.results);
+      setSearchTitle(searchQuery)
+    } catch (error) {
+      console.error('搜索出错:', error);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleImageError = (event) => {
+    event.target.src = '/404.svg';
+  };
+  
+  const BaikeSearchResult = ({ result }) => {
+    return (
+      <div className={resultStyles.cardWrapper}>
+        <div className={resultStyles.resultCard}>
+          <div className={resultStyles.cardLeft}>
+            <h4 className={resultStyles.keyword}>关键词：</h4>
+            <p className={resultStyles.keywordContent}>{result.keywords}</p>
+            <h4 className={resultStyles.description}>描述：</h4>
+            <p className={resultStyles.descriptionContent}>{result.summary}</p>
+          </div>
+          <div className={resultStyles.cardRight}>
+            <img src={result.image} alt={result.title} className={resultStyles.cardImage} onError={handleImageError} />
+            <div className={resultStyles.cardTitle}>{searchTitle}</div>
+          </div>
+        </div>
+        <button 
+          className={resultStyles.viewMoreButton}
+          onClick={() => window.open(result.url, '_blank')}
+        >
+          查看更多
+        </button>
+      </div>
+    );
+  };
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -54,29 +121,25 @@ export default function BaikeSearch() {
                   type="text"
                   className={searchStyles.searchInput}
                   placeholder="请输入搜索内容"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
-                <button className={searchStyles.searchButton}>
+                <button className={searchStyles.searchButton} onClick={handleSearch}>
                   搜索
                 </button>
               </div>
+              {searchResults.length > 0 && (
+                <div className={resultStyles.resultsContainer}>
+                  {searchResults.map((result, index) => (
+                    <BaikeSearchResult key={index} result={result} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
-        </main>
-        <main className="flex-1">
           {activeSection === 'conversation' && (
-            <div className={searchStyles.searchContainer}>
-              <p className={searchStyles.searchSubtitle}>请输入您的问题，我将为您解答</p>
-              <div className={searchStyles.searchInputContainer}>
-                <input
-                  type="text"
-                  className={searchStyles.searchInput}
-                  placeholder="请输入搜索内容"
-                />
-                <button className={searchStyles.searchButton}>
-                  发送
-                </button>
-              </div>
-            </div>
+            <KnowledgeAnswer />
           )}
         </main>
       </div>

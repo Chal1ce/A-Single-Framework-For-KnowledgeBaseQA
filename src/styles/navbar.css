@@ -1,12 +1,15 @@
 .navbar {
-  background-color: white;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+  backdrop-filter: blur(10px); /* 磨砂效果 */
+  -webkit-backdrop-filter: blur(10px); /* 为 Safari 浏览器添加前缀 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4rem; /* 确保这个高度与 mt-16 (64px) 匹配 */
+  top: 0.5rem; /* 从顶部稍微下移 */
+  left: 0.5rem; /* 左侧稍微内移 */
+  right: 0.5rem; /* 右侧稍微内移 */
+  height: 3.5rem; /* 确保这个高度与 mt-16 (64px) 匹配 */
   z-index: 50;
+  border-radius: 2rem; /* 四周都有圆角 */
 }
 
 .navbar-container {
@@ -18,7 +21,7 @@
 .navbar-content {
   display: flex;
   justify-content: space-between;
-  height: 4rem; /* 确保这个高度与 navbar 的高度匹配 */
+  height: 3.25rem; /* 确保这个高度与 navbar 的高度匹配 */
 }
 
 .navbar-logo {
@@ -27,7 +30,7 @@
 }
 
 .navbar-logo img {
-  height: 2rem;
+  height: 2.5rem;
   width: auto;
 }
 
@@ -39,41 +42,49 @@
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #6B7280;
+  font-size: 0.9375rem; /* 稍微增大字体 */
+  font-weight: 600;
+  color: #4B5563;
   background-color: transparent;
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s ease-in-out;
 }
 
 .navbar-item:hover {
-  background-color: #F3F4F6;
-  color: #374151;
+  background-color: #F9FAFB;
+  color: #111827;
+  transform: translateY(-1px);
 }
 
 .navbar-item.active {
-  color: #111827;
-  font-weight: 600;
-  background-color: #E5E7EB;
+  /* 选中状态的样式 */
+  font-weight: bold !important;
+  color: #1EAB3E !important;
+  background-color: rgba(30, 171, 62, 0.1) !important;
+  border-radius: 0.375rem !important;
 }
 
 .login-button {
-  background-color: #1eab3e;
+  background-color: rgba(30, 171, 62, 0.9); /* 稍微透明的背景 */
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  border-radius: 2rem; /* 圆角按钮 */
+  font-size: 0.9375rem;
+  font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(30, 171, 62, 0.2);
+  backdrop-filter: blur(5px); /* 轻微的磨砂效果 */
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .login-button:hover {
-  background-color: #4338CA;
+  background-color: rgba(22, 156, 52, 0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(30, 171, 62, 0.3);
 }
 
 .navbar-button {
@@ -106,7 +117,7 @@
   .navbar-links {
     display: flex;
     margin-left: 1.5rem;
-    gap: 1rem;
+    gap: 1.5rem; /* 增加链接之间的间距 */
   }
 
   .navbar-button {

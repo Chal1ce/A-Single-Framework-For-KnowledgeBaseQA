@@ -1,0 +1,6 @@
+apiKey: sk-1bf44c2031c64f34801969d2e3ba0c6c
+baseUrl: https://api.deepseek.com/v1
+embedModel: ''
+modelName: deepseek-chat
+needWebSearch: false
+serperApiKey: ''
