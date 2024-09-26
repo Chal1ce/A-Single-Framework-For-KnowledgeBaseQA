@@ -1,4 +1,4 @@
-# 基于Neo4j的农业种养殖技术服务系统
+# 基于xx数据库的知识问答服务系统
 
 <!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
@@ -7,15 +7,15 @@
 [![MIT License][license-shield]][license-url]
 <!-- PROJECT LOGO -->
 
-这是项目 `基于知识图谱的农业种养殖技术服务系统` 的前端项目，基于 `next.js` 进行开发。
+本人并非专业前端选手，本项目基于 `next.js` 进行开发，若感觉项目结构比较混乱，欢迎提PR。
 
-## 关于数据
 
-知识图谱数据来源：[GitHub](https://github.com/qq547276542/Agriculture_KnowledgeGraph) | [Gitee](https://gitee.com/jing_jing_yan/Agriculture_KnowledgeGraph)
-
-图片及部分百科数据来源：[百度百科](https://baike.baidu.com/) | [抖音百科](https://www.baike.com/)
-
-白皮书、实践指南等其他类型数据来源：国家农业科学数据中心、中国科技资源共享网、全国信息安全标准化技术委员会等公开数据网站
+## 待开发功能
+- 论坛
+- 用户系统
+- 知识库上传
+- 知识库检索
+- 知识库问答
 
 ## 开始
 **运行项目:**
@@ -39,7 +39,7 @@ npm run dev
 ```bash
 # 首次进去的主页面
 src/app/page.js
-# 初始化用户数据库脚本
+# 初始化用户账号数据库脚本
 .init-db.js
 
 # src
@@ -51,13 +51,19 @@ src/app/page.js
         |----page.module.css # 主页面样式
         |----(other) # 其他
     |----components # 组件
+        |----baike # 百科
+            |----BaikeSearch.js # 百科搜索页面
+            |----KnowledgeAnswer.js # 知识问答页面
         |----user # 用户相关；页面样式什么的可以在这改
             |----background.css # 登录注册页面的背景
             |----login.module.css # 登录注册页面的样式
             |----register.js # 注册页面
             |----ForgotPW.js # 忘记密码、重置密码页面
             |----Login.js # 登录页面
-    ｜----layout # 目前没放东西
+        |----forum # 论坛 (还在开发中)
+        |----ui # 各类UI组件
+    
+    ｜----styles # 存放各类样式css文件
 
 |--public # 存放公共资源，例如图片等
 
@@ -68,14 +74,43 @@ src/app/page.js
         |----register # 注册
         |----login # 登录
         |----(other) # 其他
+    |----BaikeSearch # 顶部导航栏的物种百科子页面
+        |----baikeSearch.js # 百科搜索页面
+        |----conversation.js # 对话页面
+    |----about # 关于页面
+    |----BaikeSearch.js # 顶部导航栏的物种百科总页面
+    |----forum # 顶部导航栏的论坛页面
+    |----helloWorld.js # 主页，懒得改了
     |----forgot-password.js # 忘记密码，重置密码页面
     |----register.js # 注册页面
     |----login.js # 登录页面
     |----helloWorld.js # 测试页面
 
+
+# 后端
+|--Server
+    |----config.yml # 配置文件
+    |----init_db.py # 初始化论坛数据库脚本
+    |----main.py # FastAPI主文件
+    |----utils.py # 工具函数文件
 ```
 
 
+## 页面预览
+
+背景什么的自己换去
+
+**首页**
+![首页](./public/imgs/首页.jpg)
+
+**登录页面**
+![登录](./public/imgs/登录.png)
+
+**百科页面**
+![百科](./public/imgs/百科.png)
+
+**问答对话页面**
+![问答对话](./public/imgs/问答.png)
 
 <!-- links -->
 [your-project-path]:Chal1ce/Agriculture-Chatbot-With-Neo4j
