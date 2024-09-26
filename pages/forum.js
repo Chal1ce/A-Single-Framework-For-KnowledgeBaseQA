@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../src/components/ui/navbar';
-import '../src/forum/forumPage.css';
+import '../src/components/forum/forumPage.css';
 
 const Forum = () => {
   const [posts, setPosts] = useState([]);
