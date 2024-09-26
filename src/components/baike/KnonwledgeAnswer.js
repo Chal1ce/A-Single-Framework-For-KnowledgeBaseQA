@@ -84,6 +84,7 @@ export default function KnowledgeAnswer() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [showMindmapButton, setShowMindmapButton] = useState(false);
   const [mindmapData, setMindmapData] = useState('');
+  const [isGeneratingMindmap, setIsGeneratingMindmap] = useState(false);
   const chatContainerRef = useRef(null);
 
   const handleChatSubmit = async () => {
@@ -119,6 +120,7 @@ export default function KnowledgeAnswer() {
   };
 
   const handleGenerateMindmap = async () => {
+    setIsGeneratingMindmap(true);
     try {
       const response = await fetch('http://127.0.0.1:8000/summary_to_mindmap', {
         method: 'POST',
@@ -144,6 +146,8 @@ export default function KnowledgeAnswer() {
       console.log('思维导图数据:', processedData);
     } catch (error) {
       console.error('生成思维导图时出错:', error);
+    } finally {
+      setIsGeneratingMindmap(false);
     }
   };
 
@@ -185,11 +189,17 @@ export default function KnowledgeAnswer() {
               <button 
                 className={`${searchStyles.searchButton} ${resultStyles.mindmapButton}`}
                 onClick={handleGenerateMindmap}
+                disabled={isGeneratingMindmap}
               >
-                生成思维导图
+                {isGeneratingMindmap ? '生成中...' : '生成思维导图'}
               </button>
             </div>
           )}
+        </div>
+      )}
+      {isGeneratingMindmap && (
+        <div className={resultStyles.loadingOverlay}>
+          <div className={resultStyles.spinner}></div>
         </div>
       )}
       {mindmapData && (
