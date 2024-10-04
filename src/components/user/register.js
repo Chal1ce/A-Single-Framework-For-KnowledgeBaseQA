@@ -14,17 +14,25 @@ function Register() {
         e.preventDefault();
         setError('');
 
-        const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-        });
+        // 创建 FormData 对象
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
 
-        if (response.ok) {
-        router.push('/login');
-        } else {
-        const data = await response.json();
-        setError(data.message);
+        try {
+            const response = await fetch('http://127.0.0.1:8000/register', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                router.push('/login');
+            } else {
+                const data = await response.json();
+                setError(data.message || '注册失败，请稍后重试');
+            }
+        } catch (err) {
+            setError('发生了一个未知错误，请稍后重试');
         }
     };
 

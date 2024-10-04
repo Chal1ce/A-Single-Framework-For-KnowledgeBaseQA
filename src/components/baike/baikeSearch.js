@@ -7,6 +7,7 @@ import searchStyles from '../../styles/SearchBox.module.css';
 import resultStyles from '../../styles/BaikeSearchResults.module.css';
 import KnowledgeAnswer from './KnonwledgeAnswer';
 import UploadFiles from './uploadFiles';
+
 export default function BaikeSearch() {
   const router = useRouter();
   const [activeSection, setActiveSection] = useState('');
@@ -15,6 +16,12 @@ export default function BaikeSearch() {
   const [searchTitle, setSearchTitle] = useState('');
 
   useEffect(() => {
+    // 检查登录状态
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+
     // 根据当前路径设置activeSection
     const path = router.pathname.split('/').pop();
     setActiveSection(path || 'baikeSearch');

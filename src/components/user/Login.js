@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../../styles/Login.module.css';
@@ -10,6 +10,7 @@ function Login() {
   const [error, setError] = useState(''); // 存储错误信息
   const [isLoading, setIsLoading] = useState(false); // 控制加载状态
   const [rememberMe, setRememberMe] = useState(false); //"记住我"功能状态
+  
   const router = useRouter();  // 用于页面导航
 
   // 处理输入变化
@@ -31,6 +32,14 @@ function Login() {
     return true;
   };
 
+  // 新增: 用于检查登录状态的useEffect
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+      router.push('/helloWorld');
+    }
+  }, []);
+
   // 处理表单提交
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,20 +49,22 @@ function Login() {
     setError('');
 
     try {
+      // 创建 FormData 对象
+      const formData = new FormData();
+      formData.append('username', credentials.username);
+      formData.append('password', credentials.password);
+
       // 发送登录请求
-      const response = await fetch('/api/login', {
+      const response = await fetch('http://127.0.0.1:8000/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
+        body: formData
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        if (rememberMe) {
-          // 注意：在实际应用中，应使用更安全的方法来存储用户会话
-          localStorage.setItem('user', JSON.stringify({ username: credentials.username }));
-        }
+        localStorage.setItem('user', JSON.stringify({ username: credentials.username }));
+        localStorage.setItem('isLoggedIn', 'true');
         router.push('/helloWorld');
       } else {
         setError(data.message || '登录失败，请检查你的账号密码');
