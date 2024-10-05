@@ -1,7 +1,7 @@
-apiKey: sk-1bf44c2031c64f34801969d2e3ba0c6c
-baseUrl: https://api.deepseek.com/v1
+apiKey: ''
+baseUrl: ''
 embedModel: ''
-modelName: deepseek-chat
+milvus_url: xxx
+modelName: ''
 needWebSearch: false
 serperApiKey: ''
-milvus_url: 'xxx'

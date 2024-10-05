@@ -1,12 +1,14 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
-from fastapi.responses import FileResponse
-from pydantic import BaseModel
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+import json
 import sqlite3
 import os, shutil
-from utils import load_config, update_config, search_baidu_baike, create_openai_client, generate_chat_response, generate_mindmap, forgot_password, register, get_user_files,check_file,delete_file
+import http.client
 from typing import List
+from pydantic import BaseModel
+from fastapi.responses import FileResponse
+from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
+from utils import load_config, update_config, search_baidu_baike, create_openai_client, generate_chat_response, generate_mindmap, forgot_password, register, get_user_files,check_file,delete_file
 # from ProcessFiles import get_file_type, process_csv_to_neo4j, process_data_to_milvus, process_data_to_neo4j, process_csv_to_milvus
 
 app = FastAPI()
@@ -23,6 +25,12 @@ class Settings(BaseModel):
     needWebSearch: bool
     serperApiKey: str
 
+
+conn = http.client.HTTPSConnection("google.serper.dev")
+headers = {
+    'X-API-KEY': settings["serperApiKey"],
+    'Content-Type': 'application/json'
+}
 
 @app.post("/login")
 async def login(username: str = Form(...), password: str = Form(...)):
@@ -147,8 +155,24 @@ async def chat_with_gpt(chat_message: ChatMessage):
     try:
         client = create_openai_client(settings)
         print(f"使用的设置: {settings}")
-        
-        return StreamingResponse(generate_chat_response(client, settings["modelName"], chat_message.message), media_type="text/event-stream")
+        if settings["needWebSearch"]:
+            payload = json.dumps({
+                "q": chat_message.message,
+                "gl": "cn",
+                "hl": "zh-cn"
+            })
+            conn.request("POST", "/search", payload, headers)
+            res = conn.getresponse()
+            data = res.read()
+            data = data.decode("utf-8")
+            new_data = [i["snippet"] for i in json.loads(data)["organic"] if "snippet" in i]
+            new_data = "\n".join(new_data)
+            new_message = "##任务:\n根据网页搜索到的信息,回答我的问题.\n" + "##网页搜索到的信息:\n" + new_data + "\n" + "##问题:\n" + chat_message.message
+            print(new_message[:5])
+            return StreamingResponse(generate_chat_response(client, settings["modelName"], new_message), media_type="text/event-stream")
+        else:
+            return StreamingResponse(generate_chat_response(client, settings["modelName"], chat_message.message), media_type="text/event-stream")
+    
     except Exception as e:
         print(f"在处理请求时发生错误: {str(e)}")
         raise HTTPException(status_code=422, detail=str(e))
