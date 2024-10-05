@@ -9,6 +9,7 @@ from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
 from utils import load_config, update_config, search_baidu_baike, create_openai_client, generate_chat_response, generate_mindmap, forgot_password, register, get_user_files,check_file,delete_file
+# from Retriver import fusion_query_engine, csv_milvus_retriver, csv_neo4j_retriver, milvus_other_retriver, neo4j_other_retriver
 # from ProcessFiles import get_file_type, process_csv_to_neo4j, process_data_to_milvus, process_data_to_neo4j, process_csv_to_milvus
 
 app = FastAPI()
@@ -139,7 +140,7 @@ async def search_baidu_baike_endpoint(search_query: SearchQuery):
 
 class ChatMessage(BaseModel):
     message: str
-
+    useKnowledgeBase: bool
 
 @app.get("/user_files/{username}")
 async def get_files(username: str):
@@ -149,29 +150,38 @@ async def get_files(username: str):
 async def delete_files(username: str, filename: str):
     return delete_file(username, filename)
 
-
 @app.post("/chat")
 async def chat_with_gpt(chat_message: ChatMessage):
     try:
         client = create_openai_client(settings)
         print(f"使用的设置: {settings}")
-        if settings["needWebSearch"]:
-            payload = json.dumps({
-                "q": chat_message.message,
-                "gl": "cn",
-                "hl": "zh-cn"
-            })
-            conn.request("POST", "/search", payload, headers)
-            res = conn.getresponse()
-            data = res.read()
-            data = data.decode("utf-8")
-            new_data = [i["snippet"] for i in json.loads(data)["organic"] if "snippet" in i]
-            new_data = "\n".join(new_data)
-            new_message = "##任务:\n根据网页搜索到的信息,回答我的问题.\n" + "##网页搜索到的信息:\n" + new_data + "\n" + "##问题:\n" + chat_message.message
-            print(new_message[:5])
-            return StreamingResponse(generate_chat_response(client, settings["modelName"], new_message), media_type="text/event-stream")
+        if chat_message.useKnowledgeBase:
+            # 处理使用知识库的逻辑
+            # csv_neo4j_index = csv_neo4j_retriver(chat_message.username)
+            # csv_milvus_index = csv_milvus_retriver(chat_message.username)
+            # other_neo4j_index = neo4j_other_retriver(chat_message.username)
+            # other_milvus_index = milvus_other_retriver(chat_message.username)
+            # query_engine = fusion_query_engine([csv_neo4j_index, csv_milvus_index, other_neo4j_index, other_milvus_index])
+            # return StreamingResponse(query_engine.query(chat_message.message), media_type="text/event-stream")
+            pass
         else:
-            return StreamingResponse(generate_chat_response(client, settings["modelName"], chat_message.message), media_type="text/event-stream")
+            if settings["needWebSearch"]:
+                payload = json.dumps({
+                    "q": chat_message.message,
+                    "gl": "cn",
+                    "hl": "zh-cn"
+                })
+                conn.request("POST", "/search", payload, headers)
+                res = conn.getresponse()
+                data = res.read()
+                data = data.decode("utf-8")
+                new_data = [i["snippet"] for i in json.loads(data)["organic"] if "snippet" in i]
+                new_data = "\n".join(new_data)
+                new_message = "##任务:\n根据网页搜索到的信息,回答我的问题.\n" + "##网页搜索到的信息:\n" + new_data + "\n" + "##问题:\n" + chat_message.message
+                print(new_message[:5])
+                return StreamingResponse(generate_chat_response(client, settings["modelName"], new_message), media_type="text/event-stream")
+            else:
+                return StreamingResponse(generate_chat_response(client, settings["modelName"], chat_message.message), media_type="text/event-stream")
     
     except Exception as e:
         print(f"在处理请求时发生错误: {str(e)}")
@@ -257,6 +267,7 @@ async def download_file(username: str, filename: str):
         return FileResponse(file_path)
     else:
         raise HTTPException(status_code=404, detail="文件不存在")
+
 
 
 # 跨域处理
