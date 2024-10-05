@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Query
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -187,6 +188,16 @@ async def upload_files(username: str = Form(...), files: List[UploadFile] = File
     except Exception as e:
         print(f"Error during file upload: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.get("/download_file/{username}/{filename}")
+async def download_file(username: str, filename: str):
+    file_path = os.path.join("uploads", username, filename)
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    else:
+        raise HTTPException(status_code=404, detail="文件不存在")
+
 
 # 跨域处理
 app.add_middleware(

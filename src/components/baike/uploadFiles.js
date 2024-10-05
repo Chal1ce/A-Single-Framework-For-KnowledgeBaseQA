@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/uploadFiles.css';
+import { saveAs } from 'file-saver';
 
 const UploadFiles = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -94,6 +95,24 @@ const UploadFiles = () => {
     }
   };
 
+  const handleDownloadFile = async (filename) => {
+    if (username) {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/download_file/${username}/${filename}`);
+        if (response.ok) {
+          const blob = await response.blob();
+          saveAs(blob, filename);
+          setUploadStatus('文件下载成功！');
+        } else {
+          setUploadStatus('文件下载失败，请重试。');
+        }
+      } catch (error) {
+        console.error('下载文件时出错:', error);
+        setUploadStatus('下载文件时出错，请重试。');
+      }
+    }
+  };
+
   return (
     <div className="upload-container">
       <div className="upload-box">
@@ -132,12 +151,20 @@ const UploadFiles = () => {
             {uploadedFiles.map((file, index) => (
               <li key={index}>
                 {file}
-                <button
-                  onClick={() => handleDeleteFile(file)}
-                  className="delete-button"
-                >
-                  删除
-                </button>
+                <div className="file-actions">
+                  <button
+                    onClick={() => handleDownloadFile(file)}
+                    className="download-button"
+                  >
+                    下载
+                  </button>
+                  <button
+                    onClick={() => handleDeleteFile(file)}
+                    className="delete-button"
+                  >
+                    删除
+                  </button>
+                </div>
               </li>
             ))}
           </ul>

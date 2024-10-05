@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "file-saver": "^2.0.5",
     "html-to-image": "^1.11.11",
     "markmap-lib": "^0.17.1",
     "markmap-render": "^0.17.1",
