@@ -59,3 +59,51 @@
 .searchButton:hover {
   background-color: #3a7bc8;
 }
+
+/* From Uiverse.io by adamgiebl */ 
+.checkbox {
+  display: flex;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 70%;
+  font-family: Arial, sans-serif;
+  color: #333;
+  cursor: pointer;
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 2px solid #39b581;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.checkbox input:checked + .checkmark {
+  background-color: #39b581;
+}
+
+.checkbox .checkmark:after {
+  content: '\2714';
+  color: white;
+  font-size: 14px;
+  display: none;
+}
+
+.checkbox input:checked + .checkmark:after {
+  display: block;
+}
+
+.checkbox .label {
+  font-size: 14px;
+  user-select: none;
+}

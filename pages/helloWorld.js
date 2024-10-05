@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '../src/components/ui/navbar';
-import styles from '../styles/HelloWorld.module.css';
+import styles from '../src/styles/HelloWorld.module.css';
 
 // 卡片数据
 const cardData = [
@@ -27,6 +27,14 @@ const cardData = [
 
 function HelloWorld() {
   const router = useRouter();
+
+  // 新增: 检查登录状态
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, []);
 
   const handleCardClick = (route) => {
     if (route.startsWith('http')) {

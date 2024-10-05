@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../src/components/ui/navbar';
-import '../src/components/forum/forumPage.css';
+import '../src/styles/forumPage.css';
+
 
 const Forum = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: '', content: '', author_id: 1 });
 
   useEffect(() => {
+    // 检查登录状态
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  if (!isLoggedIn) {
+      router.push('/login');
+    }
     fetchPosts();
   }, []);
 

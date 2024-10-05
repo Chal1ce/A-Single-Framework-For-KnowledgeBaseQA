@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from PIL import Image
 import io
+import os
 from openai import OpenAI
 
 # 加载配置文件
@@ -104,3 +105,51 @@ def generate_mindmap(client, model, message):
     except Exception as e:
         print(f"在生成响应时发生错误: {str(e)}")
         return f"错误: {str(e)}"
+    
+
+def forgot_password(username, password):
+    # 连接到数据库
+    conn = sqlite3.connect('../user.db')
+    cursor = conn.cursor()
+
+    # 更新密码
+    cursor.execute("UPDATE users SET password=? WHERE username=?", (password, username))
+    conn.commit()
+    conn.close()
+
+def register(username, password):
+    import sqlite3
+
+    # 连接到数据库
+    conn = sqlite3.connect('../user.db')
+    cursor = conn.cursor()
+
+    # 检查用户名是否已存在
+    cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+    existing_user = cursor.fetchone()
+
+    print("existing_user:", existing_user)
+
+    if existing_user:
+        raise HTTPException(status_code=400, detail="用户名已存在")
+
+    # 插入新用户
+    cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+    conn.commit()
+
+    # 关闭数据库连接
+    conn.close()
+
+
+def get_user_files(username):
+    user_dir = f"uploads/{username}"
+    return os.listdir(user_dir)
+
+
+def check_file(username, filename):
+    user_dir = f"uploads/{username}"
+    return os.path.exists(os.path.join(user_dir, filename))
+
+def delete_file(username, filename):
+    user_dir = f"uploads/{username}"
+    os.remove(os.path.join(user_dir, filename))

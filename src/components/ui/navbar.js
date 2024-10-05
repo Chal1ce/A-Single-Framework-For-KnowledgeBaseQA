@@ -1,15 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import '../../styles/navbar.css';
 
 const Navbar = ({ className, ...props }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
+    if (loggedIn) {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        setUsername(user?.username || '');
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        setUsername('');
+      }
+    }
+  }, []);
 
   const navItems = [
     { name: '首页', path: '/helloWorld' },
-    { name: '物种百科', path: '/BaikeSearch' },
+    { name: '百科问答', path: '/BaikeSearch' },
     { name: '论坛', path: '/forum' },
     { name: '关于', path: '/about' },
   ];
@@ -23,6 +39,14 @@ const Navbar = ({ className, ...props }) => {
       return router.pathname.startsWith('/BaikeSearch');
     }
     return router.pathname === path;
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    setUsername('');
+    router.push('/login');
   };
 
   return (
@@ -46,7 +70,14 @@ const Navbar = ({ className, ...props }) => {
             ))}
           </div>
           <div className="navbar-button">
-            <button className="login-button" onClick={() => handleNavigation('/login')}>登录</button>
+            {isLoggedIn ? (
+              <>
+                <span className="navbar-greeting">你好，{username}</span>
+                <button className="logout-button" onClick={handleLogout}>退出登录</button>
+              </>
+            ) : (
+              <button className="login-button" onClick={() => handleNavigation('/login')}>登录</button>
+            )}
           </div>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -72,7 +103,14 @@ const Navbar = ({ className, ...props }) => {
               {item.name}
             </button>
           ))}
-          <button className="login-button" onClick={() => handleNavigation('/login')}>登录</button>
+          {isLoggedIn ? (
+            <>
+              <span className="navbar-greeting">你好，{username}</span>
+              <button className="logout-button" onClick={handleLogout}>退出登录</button>
+            </>
+          ) : (
+            <button className="login-button" onClick={() => handleNavigation('/login')}>登录</button>
+          )}
         </div>
       )}
     </nav>

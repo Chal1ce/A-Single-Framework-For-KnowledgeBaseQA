@@ -85,7 +85,20 @@ export default function KnowledgeAnswer() {
   const [showMindmapButton, setShowMindmapButton] = useState(false);
   const [mindmapData, setMindmapData] = useState('');
   const [isGeneratingMindmap, setIsGeneratingMindmap] = useState(false);
+  const [useKnowledgeBase, setUseKnowledgeBase] = useState(false);
   const chatContainerRef = useRef(null);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const storedUsername = JSON.parse(localStorage.getItem('user'));
+    if (storedUsername) {
+      setUsername(storedUsername?.username || '');
+    }
+  }, []);
+
+  const handleCheckboxChange = (event) => {
+    setUseKnowledgeBase(event.target.checked);
+  };
 
   const handleChatSubmit = async () => {
     setIsStreaming(true);
@@ -99,7 +112,11 @@ export default function KnowledgeAnswer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: chatQuery }),
+        body: JSON.stringify({ 
+          message: chatQuery,
+          useKnowledgeBase: useKnowledgeBase,
+          username: username
+        }),
       });
 
       const reader = response.body.getReader();
@@ -177,6 +194,15 @@ export default function KnowledgeAnswer() {
         >
           发送
         </button>
+        <label className={searchStyles.checkbox}>
+          <input 
+            type="checkbox" 
+            checked={useKnowledgeBase}
+            onChange={handleCheckboxChange}
+          />
+          <span className={searchStyles.checkmark}></span>
+          <span className={searchStyles.label}>优先使用知识库检索</span>
+        </label>
       </div>
       {chatResponse && (
         <div className={resultStyles.chatResponseContainer} ref={chatContainerRef}>
