@@ -43,8 +43,8 @@
 
 .searchButton {
   position: absolute;
-  right: 0.1rem;
-  top: 27.5%;
+  right: 2px;
+  top: 50%;
   transform: translateY(-50%);
   background-color: #1b7149;
   color: white;
@@ -63,7 +63,7 @@
 /* From Uiverse.io by adamgiebl */ 
 .checkbox {
   display: flex;
-  align-items: center;
+  position: absolute;
   margin-top: 20px;
   margin-left: 70%;
   font-family: Arial, sans-serif;
