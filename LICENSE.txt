@@ -1,0 +1,52 @@
+# MIT 许可证
+
+#### 版权所有 (c) 2024 Chal1ce Chen
+
+特此免费授予任何获得本软件及其相关文档（以下简称"软件"）副本的个人或实体无限制处置该软件的权利。这些权利包括但不限于使用、复制、修改、合并、发布、分发、再许可和/或销售软件副本，以及授权软件接收者行使上述权利。行使这些权利需遵守以下条件：
+上述权利的行使受以下条件限制：
+
+1. 本软件不得用于任何非法目的或违反任何适用法律法规的活动。
+
+2. 使用本软件时，用户应遵守所有相关的数据保护和隐私法规。
+
+3. 在分发或再许可本软件时，必须保留原始的版权声明和许可条款。
+
+4. 对本软件的任何修改或衍生作品都应明确标注，并说明与原始版本的区别。
+
+5. 使用本软件构建的应用程序或服务应当注明使用了本软件。
+
+6. 本软件的作者或贡献者名单不得用于为任何衍生产品背书或推广，除非得到明确的书面许可。
+
+7. 用户在使用本软件时应当遵守良好的网络道德规范，不得利用本软件从事任何有害网络环境的行为。
+
+上述版权声明和本许可声明应包含在该软件的所有副本或实质成分中。
+
+软件"按原样"提供，不提供任何形式的明示或暗示保证，包括但不限于对适销性、特定用途适用性和非侵权性的保证。在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论这些追责来自合同、侵权或其它行为中，还是产生于、源于或有关于本软件以及本软件的使用或其它处置。
+
+---
+
+# MIT License
+
+#### Copyright (c) 2024 [Chal1ce Chen]
+
+Permission is hereby granted, free of charge, to any person or entity obtaining a copy of this software and associated documentation files (hereinafter referred to as the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The exercise of the above rights is subject to the following conditions:
+
+1. The Software shall not be used for any illegal purposes or activities that violate any applicable laws and regulations.
+
+2. When using the Software, users shall comply with all relevant data protection and privacy regulations.
+
+3. The original copyright notice and license terms must be retained when distributing or sublicensing the Software.
+
+4. Any modifications or derivative works of the Software should be clearly marked and the differences from the original version should be explained.
+
+5. Applications or services built using this Software should acknowledge the use of this Software.
+
+6. The list of authors or contributors to this Software shall not be used to endorse or promote any derivative products without explicit written permission.
+
+7. Users shall adhere to good network ethics when using this Software and shall not engage in any activities harmful to the network environment using this Software.
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
