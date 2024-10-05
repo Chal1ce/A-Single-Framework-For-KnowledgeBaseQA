@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from PIL import Image
 import io
+import os
 from openai import OpenAI
 
 # 加载配置文件
@@ -138,3 +139,17 @@ def register(username, password):
 
     # 关闭数据库连接
     conn.close()
+
+
+def get_user_files(username):
+    user_dir = f"uploads/{username}"
+    return os.listdir(user_dir)
+
+
+def check_file(username, filename):
+    user_dir = f"uploads/{username}"
+    return os.path.exists(os.path.join(user_dir, filename))
+
+def delete_file(username, filename):
+    user_dir = f"uploads/{username}"
+    os.remove(os.path.join(user_dir, filename))

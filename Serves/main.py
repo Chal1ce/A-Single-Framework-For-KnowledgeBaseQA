@@ -4,7 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 import sqlite3
 import os, shutil
-from utils import load_config, update_config, search_baidu_baike, create_openai_client, generate_chat_response, generate_mindmap, forgot_password, register
+from utils import load_config, update_config, search_baidu_baike, create_openai_client, generate_chat_response, generate_mindmap, forgot_password, register, get_user_files,check_file,delete_file
+from typing import List
 
 app = FastAPI()
 
@@ -73,7 +74,7 @@ async def register(username: str = Form(...), password: str = Form(...)):
     print("existing_user:", existing_user)
 
     if existing_user:
-        raise HTTPException(status_code=400, detail="用户名已存在")
+        raise HTTPException(status_code=400, detail="用���名已存在")
 
     # 插入新用户
     cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
@@ -115,7 +116,7 @@ async def update_settings_endpoint(new_settings: Settings):
     update_config(new_settings.dict())
     global settings
     settings = load_config()
-    return {"message": "设置已成功更新"}
+    return {"message": "设置已成功更���"}
 
 class SearchQuery(BaseModel):
     query: str
@@ -129,7 +130,16 @@ async def search_baidu_baike_endpoint(search_query: SearchQuery):
 class ChatMessage(BaseModel):
     message: str
 
-    
+
+@app.get("/user_files/{username}")
+async def get_files(username: str):
+    return get_user_files(username)
+
+@app.delete("/delete_file/{username}/{filename}")
+async def delete_files(username: str, filename: str):
+    return delete_file(username, filename)
+
+
 @app.post("/chat")
 async def chat_with_gpt(chat_message: ChatMessage):
     try:
@@ -157,30 +167,26 @@ async def summary_to_mindmap(chat_message: ChatMessage):
 
 # 处理用户上传的文件
 @app.post("/upload")
-async def process_file(
-    file: UploadFile = File(...),
-    username: str = Form(...)
-):
-    # 创建用户目录
-    # 判断用户名是否为空或空字符串
-    print("username:", username)
-    if not username or username.strip() == "":
-        username = "undefined"
-    user_dir = f"uploads/{username}"
-    os.makedirs(user_dir, exist_ok=True)
-    
-    # 保存文件
-    file_path = os.path.join(user_dir, file.filename)
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    
-    # # 处理文件内容
-    # file_content = ""
-    # with open(file_path, "r", encoding="utf-8") as f:
-    #     file_content = f.read()
-    
-    # 这里可以添加更多的文件处理逻辑，比如解析文件内容、存储到数据库等
-    return {"message": "文件上传成功", "file_name": file.filename, "file_size": file.size}
+async def upload_files(username: str = Form(...), files: List[UploadFile] = File(...)):
+    print(f"Received upload request for user: {username}")
+    print(f"Number of files: {len(files)}")
+    try:
+        user_folder = os.path.join("uploads", username)
+        os.makedirs(user_folder, exist_ok=True)
+        
+        uploaded_files = []
+        for file in files:
+            file_path = os.path.join(user_folder, file.filename)
+            with open(file_path, "wb") as buffer:
+                content = await file.read()
+                buffer.write(content)
+            uploaded_files.append(file.filename)
+        
+        print(f"Successfully uploaded {len(uploaded_files)} files")
+        return {"message": f"成功上传 {len(uploaded_files)} 个文件", "files": uploaded_files}
+    except Exception as e:
+        print(f"Error during file upload: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
 
 # 跨域处理
 app.add_middleware(
