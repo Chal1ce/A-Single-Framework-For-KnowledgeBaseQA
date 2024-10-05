@@ -7,6 +7,7 @@ const UploadFiles = () => {
   const [uploadStatus, setUploadStatus] = useState('');
   const [username, setUsername] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const storedUsername = JSON.parse(localStorage.getItem('user'));
@@ -113,6 +114,36 @@ const UploadFiles = () => {
     }
   };
 
+  const handleProcessFiles = async () => {
+    if (username && uploadedFiles.length > 0) {
+      setIsProcessing(true);
+      try {
+        const formData = new FormData();
+        formData.append('username', username);
+
+        const response = await fetch('http://127.0.0.1:8000/process_files', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          setUploadStatus(result.message);
+        } else {
+          const errorData = await response.json();
+          setUploadStatus(`处理失败：${errorData.detail}`);
+        }
+      } catch (error) {
+        console.error('处理文件时出错:', error);
+        setUploadStatus('处理文件时出错，请重试。');
+      } finally {
+        setIsProcessing(false);
+      }
+    } else {
+      setUploadStatus('没有可处理的文件或用户未登录。');
+    }
+  };
+
   return (
     <div className="upload-container">
       <div className="upload-box">
@@ -147,27 +178,36 @@ const UploadFiles = () => {
           </button>
         </div>
         {uploadedFiles.length > 0 ? (
-          <ul>
-            {uploadedFiles.map((file, index) => (
-              <li key={index}>
-                {file}
-                <div className="file-actions">
-                  <button
-                    onClick={() => handleDownloadFile(file)}
-                    className="download-button"
-                  >
-                    下载
-                  </button>
-                  <button
-                    onClick={() => handleDeleteFile(file)}
-                    className="delete-button"
-                  >
-                    删除
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul>
+              {uploadedFiles.map((file, index) => (
+                <li key={index}>
+                  {file}
+                  <div className="file-actions">
+                    <button
+                      onClick={() => handleDownloadFile(file)}
+                      className="download-button"
+                    >
+                      下载
+                    </button>
+                    <button
+                      onClick={() => handleDeleteFile(file)}
+                      className="delete-button"
+                    >
+                      删除
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={handleProcessFiles}
+              className="process-button"
+              disabled={isProcessing}
+            >
+              {isProcessing ? '处理中...' : '数据结构化向量化入库'}
+            </button>
+          </>
         ) : (
           <p>暂无上传文件</p>
         )}

@@ -7,6 +7,7 @@ import sqlite3
 import os, shutil
 from utils import load_config, update_config, search_baidu_baike, create_openai_client, generate_chat_response, generate_mindmap, forgot_password, register, get_user_files,check_file,delete_file
 from typing import List
+# from ProcessFiles import get_file_type, process_csv_to_neo4j, process_data_to_milvus, process_data_to_neo4j, process_csv_to_milvus
 
 app = FastAPI()
 
@@ -75,7 +76,7 @@ async def register(username: str = Form(...), password: str = Form(...)):
     print("existing_user:", existing_user)
 
     if existing_user:
-        raise HTTPException(status_code=400, detail="用���名已存在")
+        raise HTTPException(status_code=400, detail="用名已存在")
 
     # 插入新用户
     cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
@@ -117,7 +118,7 @@ async def update_settings_endpoint(new_settings: Settings):
     update_config(new_settings.dict())
     global settings
     settings = load_config()
-    return {"message": "设置已成功更���"}
+    return {"message": "设置已成功更"}
 
 class SearchQuery(BaseModel):
     query: str
@@ -188,6 +189,41 @@ async def upload_files(username: str = Form(...), files: List[UploadFile] = File
     except Exception as e:
         print(f"Error during file upload: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# 处理上传的文件
+@app.post("/process_files")
+async def process_files(username: str = Form(...)):
+    print(f"开始处理用户 {username} 的文件")
+    try:
+        user_folder = os.path.join("uploads", username)
+        if not os.path.exists(user_folder):
+            raise HTTPException(status_code=404, detail="用户文件夹不存在")
+        
+        files = os.listdir(user_folder)
+        if not files:
+            raise HTTPException(status_code=404, detail="用户文件夹为空")
+        
+        # for file in files:
+        #     file_path = os.path.join(user_folder, file)
+        #     # 根据文件类型调用不同的处理函数
+        #     file_type = get_file_type(file_path)
+        #     if file_type == '.csv':
+                # 处理CSV文件
+                # process_csv_to_neo4j(username, file_path)
+                # process_csv_to_milvus(username, file_path)
+            #     pass
+            # else:
+            #     # 处理其他类型文件
+            #     # process_data_to_milvus(username, file_path)
+            #     # process_data_to_neo4j(username, file_path)
+            #     pass
+
+        return {"message": f"成功处理 {len(files)} 个文件"}
+    except Exception as e:
+        print(f"处理文件时发生错误: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 
 @app.get("/download_file/{username}/{filename}")

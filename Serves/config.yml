@@ -4,3 +4,4 @@ embedModel: ''
 modelName: deepseek-chat
 needWebSearch: false
 serperApiKey: ''
+milvus_url: 'xxx'
