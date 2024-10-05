@@ -110,16 +110,16 @@ src/app/page.js
 ![问答对话](./public/imgs/问答.png)
 
 <!-- links -->
-[your-project-path]:Chal1ce/Agriculture-Chatbot-With-Neo4j
-[contributors-shield]: https://img.shields.io/github/contributors/Chal1ce/Agriculture-Chatbot-With-Neo4j.svg?style=flat-square
-[contributors-url]: https://github.com/Chal1ce/Agriculture-Chatbot-With-Neo4j/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Chal1ce/Agriculture-Chatbot-With-Neo4j.svg?style=flat-square
-[forks-url]: https://github.com/Chal1ce/Agriculture-Chatbot-With-Neo4j/network/members
-[stars-shield]: https://img.shields.io/github/stars/Chal1ce/Agriculture-Chatbot-With-Neo4j.svg?style=flat-square
-[stars-url]: https://github.com/Chal1ce/Agriculture-Chatbot-With-Neo4j/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Chal1ce/Agriculture-Chatbot-With-Neo4j.svg?style=flat-square
-[issues-url]: https://img.shields.io/github/issues/Chal1ce/Agriculture-Chatbot-With-Neo4j.svg
-[license-shield]: https://img.shields.io/github/license/Chal1ce/Agriculture-Chatbot-With-Neo4j.svg?style=flat-square
-[license-url]: https://github.com/Chal1ce/Agriculture-Chatbot-With-Neo4j/blob/master/LICENSE.txt
+[your-project-path]:Chal1ce/A-Single-Framework-For-KnowledgeBaseQA
+[contributors-shield]: https://img.shields.io/github/contributors/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg?style=flat-square
+[contributors-url]: https://github.com/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg?style=flat-square
+[forks-url]: https://github.com/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA/network/members
+[stars-shield]: https://img.shields.io/github/stars/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg?style=flat-square
+[stars-url]: https://github.com/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg?style=flat-square
+[issues-url]: https://img.shields.io/github/issues/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg
+[license-shield]: https://img.shields.io/github/license/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg?style=flat-square
+[license-url]: https://github.com/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/shaojintian
