@@ -1,77 +1,591 @@
 .forum-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.forum-title {
-  font-size: 2.5rem;
-  color: #333;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.post-form {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-}
-
-.post-form input,
-.post-form textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  max-width: 1200px;
+  margin-top: 35px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
 }
 
-.post-form textarea {
-  min-height: 100px;
+.custom-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
 }
 
-.post-form button {
-  background-color: #4a90e2;
-  color: white;
-  padding: 10px 20px;
+.custom-image {
+  max-width: 100%;
+  height: auto;  
+}
+
+.new-post-button-container {
+  display: flex;
+  justify-content: left;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-bottom: 10px; /* 减少底部边距 */
+}
+
+.new-post-button {
+  background-color: #4CAF50;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  color: white;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
   cursor: pointer;
+  border-radius: 4px;
   transition: background-color 0.3s;
 }
 
-.post-form button:hover {
-  background-color: #357abd;
+.new-post-button:hover {
+  background-color: #45a049;
+}
+
+.posts-container {
+  margin-top: 10px; /* 减少顶部边距 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-header {
+  display: flex;
+  background-color: #f0f0f0;
+  padding: 8px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.post-title-header,
+.post-author-header,
+.post-date-header,
+.post-actions-header {
+  display: flex;
+  align-items: center;
+}
+
+.post-title-header {
+  flex: 3;
+}
+
+.post-author-header,
+.post-date-header {
+  flex: 1;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+
+.post-actions-header {
+  flex: 0.5;
+  justify-content: center;
 }
 
 .post-list {
-  display: grid;
-  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .post-item {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+  align-items: center;
+}
+
+.post-item:hover {
+  background-color: #f5f5f5;
+}
+
+.post-item:last-child {
+  border-bottom: none;
+}
+
+.post-title,
+.post-author,
+.post-date,
+.post-actions {
+  padding: 0 5px;
 }
 
 .post-title {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
+  flex: 3;
+  cursor: pointer;
 }
 
-.post-content {
+.post-author,
+.post-date {
+  flex: 1;
+  text-align: right;
+}
+
+.post-actions {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+}
+
+.no-posts-message {
+  padding: 20px;
+  text-align: center;
   color: #666;
+}
+
+.new-post-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.new-post-form input,
+.new-post-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.new-post-form textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.new-post-form button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.new-post-form button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.new-post-form button[type="button"] {
+  background-color: #f44336;
+  color: white;
+}
+
+.refresh-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.refresh-button:hover {
+  background-color: #45a049;
+}
+
+.post-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.post-details {
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 95%;  /* 增加最大宽度 */
+  width: 1200px;   /* 增加固定宽度 */
+  max-height: 95vh; /* 增加最大高度 */
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.post-details h2 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 28px;  /* 增加标题字体大小 */
+  color: #333;
+}
+
+.post-details-content {
+  display: flex;
+  gap: 40px;  /* 增间隔 */
+}
+
+.post-details-left {
+  flex: 1;
+  padding-right: 40px;
+  border-right: 1px solid #eee;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 确保子元素左对齐 */
+}
+
+.post-details-right {
+  flex: 3;
+}
+
+.post-details .post-author {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #4CAF50;
+}
+
+.post-details .post-date {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.post-details .post-content {
+  white-space: pre-wrap;
+  font-size: 18px;  /* 增加字体大小 */
+  line-height: 1.8;  /* 增加行高 */
+  color: #333;
+}
+
+.post-details button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;  /* 增加按钮大小 */
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 30px;  /* 增加上边距 */
+  font-size: 16px;  /* 增加字体大小 */
+}
+
+.post-details button:hover {
+  background-color: #45a049;
+}
+
+.comments-section {
+  margin-top: 40px;
+  border-top: 2px solid #eee;
+  padding-top: 30px;
+  max-height: 500px;  /* 增加评论区域的最大高度 */
+  overflow-y: auto;
+}
+
+.comments-section h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.comment {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #4CAF50;
+}
+
+.comment button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.comment button:hover {
+  background-color: #45a049;
+}
+
+.depth-1 { margin-left: 20px; }
+.depth-2 { margin-left: 40px; }
+.depth-3 { margin-left: 60px; }
+/* 可以继续添加更多深度的样式 */
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #4CAF50;  /* 使作者名称更突出 */
+}
+
+.comment-content {
+  margin-bottom: 5px;
+  line-height: 1.4;
+  transition: max-height 0.3s ease-out;
+  overflow: hidden;
+}
+
+.comment-content.collapsed {
+  max-height: 100px; /* 调整个值以适应你想要显示的行数 */
+}
+
+.toggle-comment {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.toggle-comment:hover {
+  text-decoration: underline;
+}
+
+.comment-date {
+  font-size: 0.8em;
+  color: #666;
+  text-align: right;  /* 将日期右对齐 */
+}
+
+.comment-form {
+  margin-top: 20px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.comment-form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #45a049;
+}
+
+.comments-list {
+  margin-left: 20px;
+}
+
+.depth-0 {
+  margin-left: 0;
+}
+
+.comment {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #4CAF50;
+}
+
+.comment button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.comment button:hover {
+  background-color: #45a049;
+}
+
+.reply-form {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reply-form textarea {
+  width: 96%;
+  height: 80px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.reply-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.reply-form button {
+  padding: 8px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.reply-form button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.reply-form button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.reply-form .cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.reply-form .cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+.delete-post-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.delete-post-button:hover {
+  background-color: #d32f2f;
+}
+
+.post-category-header,
+.post-category {
+  flex: 1;
+  text-align: center;
+}
+
+.new-post-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.new-post-form .form-group {
   margin-bottom: 15px;
 }
 
-.post-meta {
-  font-size: 0.9rem;
-  color: #999;
+.new-post-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.new-post-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filter-search-container {
+  background-color: #f0f0f0;
+  padding: 15px;  /* 减小内边距 */
+  border-radius: 8px;
+  margin-bottom: 15px;  /* 减小底部边距 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-filter {
+  margin-bottom: 10px;  /* 减小底部边距 */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.category-filter span {
+  margin-right: 8px;  /* 减小右边距 */
+  font-weight: bold;
+  color: #333;
+}
+
+.category-filter button {
+  margin-right: 6px;  /* 减小右边距 */
+  margin-bottom: 6px;  /* 减小底部边距 */
+  padding: 6px 12px;  /* 减小内边距 */
+  border: 1px solid #4CAF50;
+  background-color: white;
+  color: #4CAF50;
+  cursor: pointer;
+  border-radius: 16px;  /* 稍微减小圆角 */
+  transition: all 0.3s;
+  font-size: 13px;  /* 稍微减小字体大小 */
+}
+
+.category-filter button:hover,
+.category-filter button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input {
+  flex-grow: 1;
+  padding: 8px;  /* 减小内边距 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;  /* 稍微减小字体大小 */
+}
+
+.search-container button {
+  margin-left: 8px;  /* 减小左边距 */
+  padding: 8px 16px;  /* 减小内边距 */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 13px;  /* 稍微减小字体大小 */
+}
+
+.search-container button:hover {
+  background-color: #45a049;
 }
