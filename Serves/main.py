@@ -2,6 +2,7 @@ import json
 import sqlite3
 import os, shutil
 import http.client
+from datetime import datetime
 from typing import List
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
@@ -240,7 +241,7 @@ async def process_files(username: str = Form(...)):
         
         # for file in files:
         #     file_path = os.path.join(user_folder, file)
-        #     # 根据文件类型调用不同的处理函数
+        #     # 根据件类型调用不同的处理函数
         #     file_type = get_file_type(file_path)
         #     if file_type == '.csv':
                 # 处理CSV文件
@@ -278,3 +279,139 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class PostCreate(BaseModel):
+    title: str
+    content: str
+    author: str
+
+@app.post("/posts/")
+async def create_post(post: PostCreate):
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        created_at = datetime.now().isoformat()
+        cursor.execute("""
+            INSERT INTO posts (title, content, author, created_at)
+            VALUES (?, ?, ?, ?)
+        """, (post.title, post.content, post.author, created_at))
+        conn.commit()
+        return {"message": "Post created successfully"}
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.get("/posts/")
+async def get_posts():
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT * FROM posts ORDER BY created_at DESC")
+        posts = cursor.fetchall()
+        return [{"id": post[0], "title": post[1], "content": post[2], "author": post[3], "created_at": post[4]} for post in posts]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.get("/posts/{post_id}")
+async def get_post(post_id: int):
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT * FROM posts WHERE id = ?", (post_id,))
+        post = cursor.fetchone()
+        if post:
+            return {"id": post[0], "title": post[1], "content": post[2], "author": post[3], "created_at": post[4]}
+        else:
+            raise HTTPException(status_code=404, detail="Post not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+class CommentCreate(BaseModel):
+    content: str
+    author: str
+
+@app.post("/posts/{post_id}/comments")
+async def create_comment(post_id: int, comment: CommentCreate):
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        created_at = datetime.now().isoformat()
+        cursor.execute("""
+            INSERT INTO comments (post_id, content, author, created_at)
+            VALUES (?, ?, ?, ?)
+        """, (post_id, comment.content, comment.author, created_at))
+        conn.commit()
+        return {"message": "Comment created successfully"}
+    except Exception as e:
+        conn.rollback()
+        print(f"Error creating comment: {str(e)}")  # 添加这行来打印错误信息
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.get("/posts/{post_id}/comments")
+async def get_comments(post_id: int):
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            SELECT c.id, c.post_id, c.content, c.author, c.created_at, c.parent_id,
+                   (SELECT COUNT(*) FROM comments r WHERE r.parent_id = c.id) as reply_count
+            FROM comments c
+            WHERE c.post_id = ? 
+            ORDER BY c.created_at ASC
+        """, (post_id,))
+        comments = cursor.fetchall()
+        return [{"id": comment[0], "post_id": comment[1], "content": comment[2], "author": comment[3], "created_at": comment[4], "parent_id": comment[5], "reply_count": comment[6]} for comment in comments]
+    except Exception as e:
+        print(f"Error fetching comments: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+class CommentReply(BaseModel):
+    content: str
+    author: str
+    parent_id: int
+
+@app.post("/posts/{post_id}/comments/{comment_id}/reply")
+async def reply_to_comment(post_id: int, comment_id: int, reply: CommentReply):
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        created_at = datetime.now().isoformat()
+        cursor.execute("""
+            INSERT INTO comments (post_id, content, author, created_at, parent_id)
+            VALUES (?, ?, ?, ?, ?)
+        """, (post_id, reply.content, reply.author, created_at, comment_id))
+        conn.commit()
+        return {"message": "Reply created successfully"}
+    except Exception as e:
+        conn.rollback()
+        print(f"Error creating reply: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
+
+@app.delete("/posts/{post_id}/comments/{comment_id}")
+async def delete_comment(post_id: int, comment_id: int):
+    conn = sqlite3.connect('forum.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM comments WHERE id = ? AND post_id = ?", (comment_id, post_id))
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Comment not found")
+        conn.commit()
+        return {"message": "Comment deleted successfully"}
+    except Exception as e:
+        conn.rollback()
+        print(f"Error deleting comment: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        conn.close()
