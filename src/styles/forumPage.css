@@ -340,7 +340,7 @@
 }
 
 .comment-content.collapsed {
-  max-height: 100px; /* 调整���个值以适应你想要显示的行数 */
+  max-height: 100px; /* 调整个值以适应你想要显示的行数 */
 }
 
 .toggle-comment {
@@ -487,4 +487,105 @@
 
 .delete-post-button:hover {
   background-color: #d32f2f;
+}
+
+.post-category-header,
+.post-category {
+  flex: 1;
+  text-align: center;
+}
+
+.new-post-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.new-post-form .form-group {
+  margin-bottom: 15px;
+}
+
+.new-post-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.new-post-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filter-search-container {
+  background-color: #f0f0f0;
+  padding: 15px;  /* 减小内边距 */
+  border-radius: 8px;
+  margin-bottom: 15px;  /* 减小底部边距 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-filter {
+  margin-bottom: 10px;  /* 减小底部边距 */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.category-filter span {
+  margin-right: 8px;  /* 减小右边距 */
+  font-weight: bold;
+  color: #333;
+}
+
+.category-filter button {
+  margin-right: 6px;  /* 减小右边距 */
+  margin-bottom: 6px;  /* 减小底部边距 */
+  padding: 6px 12px;  /* 减小内边距 */
+  border: 1px solid #4CAF50;
+  background-color: white;
+  color: #4CAF50;
+  cursor: pointer;
+  border-radius: 16px;  /* 稍微减小圆角 */
+  transition: all 0.3s;
+  font-size: 13px;  /* 稍微减小字体大小 */
+}
+
+.category-filter button:hover,
+.category-filter button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input {
+  flex-grow: 1;
+  padding: 8px;  /* 减小内边距 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;  /* 稍微减小字体大小 */
+}
+
+.search-container button {
+  margin-left: 8px;  /* 减小左边距 */
+  padding: 8px 16px;  /* 减小内边距 */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 13px;  /* 稍微减小字体大小 */
+}
+
+.search-container button:hover {
+  background-color: #45a049;
 }

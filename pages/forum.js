@@ -5,7 +5,7 @@ import '../src/styles/forumPage.css';
 
 const Forum = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
+  const [newPost, setNewPost] = useState({ title: '', content: '', category: '问题求助' });
   const [author, setAuthor] = useState('');
   const [showNewPostForm, setShowNewPostForm] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -15,6 +15,9 @@ const Forum = () => {
   const [replyContent, setReplyContent] = useState('');
   const [expandedComments, setExpandedComments] = useState({});
   const [expandedReplies, setExpandedReplies] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState('全部');
+  const categories = ['全部', '问题求助', '改进意见', '交流分享', '其他'];
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // 检查登录状态
@@ -25,11 +28,16 @@ const Forum = () => {
       router.push('/login');
     }
     fetchPosts();
-  }, []);
+  }, [selectedCategory, searchTerm]);
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/posts/');
+      const response = await axios.get('http://localhost:8000/posts/', {
+        params: { 
+          category: selectedCategory !== '全部' ? selectedCategory : undefined,
+          search: searchTerm
+        }
+      });
       setPosts(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -44,7 +52,7 @@ const Forum = () => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:8000/posts/', { ...newPost, author });
-      setNewPost({ title: '', content: '' });
+      setNewPost({ title: '', content: '', category: '问题求助' });
       setShowNewPostForm(false);
       fetchPosts();
     } catch (error) {
@@ -228,16 +236,55 @@ const Forum = () => {
               placeholder="帖子内容"
               required
             />
+            <div className="form-group">
+              <label htmlFor="category">帖子类别：</label>
+              <select
+                id="category"
+                name="category"
+                value={newPost.category}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="问题求助">问题求助</option>
+                <option value="改进意见">改进意见</option>
+                <option value="交流分享">交流分享</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
             <button type="submit">发布</button>
             <button type="button" onClick={() => setShowNewPostForm(false)}>取消</button>
           </form>
         )}
+        <div className="filter-search-container">
+          <div className="category-filter">
+            <span>筛选类别：</span>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={selectedCategory === category ? 'active' : ''}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="搜索帖子标题..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button onClick={fetchPosts}>搜索</button>
+          </div>
+        </div>
         <div className="posts-container">
           <div className="post-header">
             <div className="post-title-header">
               帖子标题
               <button className="refresh-button" onClick={fetchPosts}>刷新</button>
             </div>
+            <div className="post-category-header">类别</div>
             <div className="post-author-header">创建人</div>
             <div className="post-date-header">创建时间</div>
             <div className="post-actions-header">操作</div>
@@ -247,6 +294,7 @@ const Forum = () => {
               {posts.map((post) => (
                 <li key={post.id} className="post-item">
                   <div className="post-title" onClick={() => handlePostClick(post.id)}>{post.title}</div>
+                  <div className="post-category">{post.category}</div>
                   <div className="post-author">{post.author || '匿名用户'}</div>
                   <div className="post-date">{new Date(post.created_at).toLocaleString()}</div>
                   <div className="post-actions">
