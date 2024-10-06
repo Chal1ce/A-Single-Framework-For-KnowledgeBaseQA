@@ -20,6 +20,7 @@
 ⚠️ 首次运行项目前，需要先运行初始化数据库的脚本。
 - 在命令行或终端中输入以下命令：
 ```bash
+npm install
 npm run initialize-db
 ```
 
@@ -51,17 +52,16 @@ src/app/page.js
         |----baike # 百科
             |----BaikeSearch.js # 百科搜索页面
             |----KnowledgeAnswer.js # 知识问答页面
+            |----uploadFiles.js # 上传文件页面
         |----user # 用户相关；页面样式什么的可以在这改
             |----background.css # 登录注册页面的背景
             |----login.module.css # 登录注册页面的样式
             |----register.js # 注册页面
             |----ForgotPW.js # 忘记密码、重置密码页面
             |----Login.js # 登录页面
-        |----forum # 论坛 (还在开发中)
+        |----forum # 论坛(还没将函数搬运过来)
         |----ui # 各类UI组件
-    
-    ｜----styles # 存放各类样式css文件
-
+    |----styles # 存放各类样式css文件
 |--public # 存放公共资源，例如图片等
 
 # pages
@@ -74,9 +74,10 @@ src/app/page.js
     |----BaikeSearch # 顶部导航栏的物种百科子页面
         |----baikeSearch.js # 百科搜索页面
         |----conversation.js # 对话页面
+        |----uploadFiles.js # 上传文件页面
     |----about # 关于页面
     |----BaikeSearch.js # 顶部导航栏的物种百科总页面
-    |----forum # 顶部导航栏的论坛页面
+    |----forum.js # 论坛页面
     |----helloWorld.js # 主页，懒得改了
     |----forgot-password.js # 忘记密码，重置密码页面
     |----register.js # 注册页面
@@ -90,12 +91,15 @@ src/app/page.js
     |----init_db.py # 初始化论坛数据库脚本
     |----main.py # FastAPI主文件
     |----utils.py # 工具函数文件
+    |----ProcessFiles.py # 处理文件到数据库的函数
+    |----Retriver.py # 检索文件的函数
+    |----uploads # 里面有以用户名命名的文件夹，存放用户上传的文件
 ```
 
 
 ## 页面预览
 
-背景什么的自己换去
+背景什么的可以自己换
 
 **首页**
 ![首页](./public/imgs/首页.jpg)
@@ -109,6 +113,11 @@ src/app/page.js
 **问答对话页面**
 ![问答对话](./public/imgs/问答.png)
 
+**论坛页面**
+![论坛](./public/imgs/论坛主页.png)
+
+**论坛帖子页面**
+![论坛帖子](./public/imgs/帖子详情.png)
 <!-- links -->
 [your-project-path]:Chal1ce/A-Single-Framework-For-KnowledgeBaseQA
 [contributors-shield]: https://img.shields.io/github/contributors/Chal1ce/A-Single-Framework-For-KnowledgeBaseQA.svg?style=flat-square
